@@ -12,7 +12,7 @@ const client = mqtt.connect(brokerUrl);
 const registry = [];
 
 // Middleware to parse JSON data
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false })).use(express.json());
 
 function publishMessage(topic, message) {
     try {
