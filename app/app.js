@@ -46,7 +46,7 @@ client.on('message', (topic, message) => {
             // Find the ESP32 record
             const index = registry.findIndex((item) => item.esp32 === esp32);
             if (index === -1) {
-                registry.push(parsedMessage);
+                registry.push(parsedMessage.esp32);
                 console.log('-----------------------------------------------------');
                 console.log(`        ESP32 ${esp32} added to the registry`);
                 console.log('Current registry:', registry);
