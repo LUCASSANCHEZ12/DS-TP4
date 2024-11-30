@@ -1,5 +1,6 @@
 const mqtt = require('mqtt');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 8000;
@@ -9,6 +10,9 @@ const brokerUrl = 'mqtt://mosquitto'; // Example using HiveMQ public broker
 const client = mqtt.connect(brokerUrl);
 
 const registry = [];
+
+// Middleware to parse JSON data
+app.use(bodyParser.json());
 
 function publishMessage(topic, message) {
     try {
