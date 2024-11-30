@@ -11,7 +11,7 @@ services:
     hostname: mqtt
     container_name: mosquitto
 
-  app-nodejs:  # name of the app
+  app_nodejs:  # name of the app
     build: 
       context: .
       name: tp4_test
