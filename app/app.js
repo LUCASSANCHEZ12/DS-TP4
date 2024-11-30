@@ -62,32 +62,37 @@ client.on('error', (err) => {
 
 // Application route
 app.post('/control', (req, res) => {
-    // { “esp32” : XXX, “new_delay” : ZZZ }
-    console.log(`\nRequest received on route "/control":\n\t`, req.body);
-    const message = req.body;
-    const esp32 = message.esp32;
+    try {
+        // { "esp32" : XXX, "new_delay" : ZZZ }
+        console.log(`\nRequest received on route "/control":\n\t`, req.body);
+        const message = req.body;
+        const esp32 = message.esp32;
 
-    if (!esp32) {
-        for (let i = 0; i < registry.length; i++) {
-            const topic_pub = `upb/control`;
-            const new_message = {
-                esp32: registry[i], 
-                new_delay: message.new_delay
-            };
-            publishMessage(topic_pub, new_message);
-            console.log(`Message sent to ESP32 ${registry[i]}`);
+        if (!esp32) {
+            for (let i = 0; i < registry.length; i++) {
+                const topic_pub = `upb/control`;
+                const new_message = {
+                    esp32: registry[i], 
+                    new_delay: message.new_delay
+                };
+                publishMessage(topic_pub, new_message);
+                console.log(`Message sent to ESP32 ${registry[i]}`);
+            }
+            return res.send(`Message sent to all ESP32 devices`);
         }
-        return res.send(`Message sent to all ESP32 devices`);
-    }
-    // Find the ESP32 record
-    const index = registry.findIndex((item) => item.esp32 === esp32);
-    if (index !== -1) {
-        // Send message to ESP32
-        const topic_pub = `upb/control`;
-        publishMessage(topic_pub, message);
-        res.send(`Message sent to ESP32 ${esp32}`);
-    } else {
-        res.send(`ESP32 ${esp32} not found`);
+        // Find the ESP32 record
+        const index = registry.findIndex((item) => item.esp32 === esp32);
+        if (index !== -1) {
+            // Send message to ESP32
+            const topic_pub = `upb/control`;
+            publishMessage(topic_pub, message);
+            res.send(`Message sent to ESP32 ${esp32}`);
+        } else {
+            res.status(404).send(`ESP32 ${esp32} not found`);
+        }
+    } catch (error) {
+        console.error('Error processing request:', error);
+        res.status(500).send('Error processing request');
     }
 });
 
