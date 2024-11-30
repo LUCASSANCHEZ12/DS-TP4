@@ -68,7 +68,10 @@ client.on('error', (err) => {
 app.post('/control', (req, res) => {
     try {
         // { "esp32" : XXX, "new_delay" : ZZZ }
+        console.log('-----------------------------------------------------');
         console.log(`\nRequest received on route "/control":\n\t`, req.body);
+        console.log('-----------------------------------------------------');
+
         const message = req.body;
         const esp32 = message.esp32;
 
@@ -85,7 +88,7 @@ app.post('/control', (req, res) => {
             return res.send(`Message sent to all ESP32 devices`);
         }
         // Find the ESP32 record
-        const index = registry.findIndex((item) => item.esp32 === esp32);
+        const index = registry.findIndex((item) => item === esp32);
         if (index !== -1) {
             // Send message to ESP32
             const topic_pub = `upb/control`;
