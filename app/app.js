@@ -18,7 +18,10 @@ function publishMessage(topic, message) {
     try {
         // Publish a message to a topic
         client.publish(topic, JSON.stringify(message));
-        console.log(`\nPublishing message to topic "${topic}":\n`, message);
+        console.log('-----------------------------------------------------');
+        console.log(`\nPublishing message to topic "${topic}":\n${message}\n`);
+        console.log('-----------------------------------------------------');
+
     } catch (error) {
         console.error('Error publishing message:', error);
     }
@@ -69,7 +72,7 @@ app.post('/control', (req, res) => {
     try {
         // { "esp32" : XXX, "new_delay" : ZZZ }
         console.log('-----------------------------------------------------');
-        console.log(`\nRequest received on route "/control":\n\t`, req.body);
+        console.log(`\nRequest received on route "/control":\n\t${req.body}\n`);
         console.log('-----------------------------------------------------');
 
         const message = req.body;
