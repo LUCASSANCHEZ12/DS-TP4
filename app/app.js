@@ -59,6 +59,7 @@ client.on('error', (err) => {
 // Application route
 app.post('/control', (req, res) => {
     // { “esp32” : XXX, “new_delay” : ZZZ }
+    console.log(`\nRequest received on route "/control":\n\t`, req.body);
     const message = req.body;
     const esp32 = message.esp32;
 
