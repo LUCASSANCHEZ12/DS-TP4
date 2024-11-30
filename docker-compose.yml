@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  mosquitto:     # name of the broker
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - mqtt-bridge
+    hostname: mqtt
+    container_name: mosquitto
+
+  app-nodejs:  # name of the app
+    build: 
+      context: .
+      name: tp4_test
+    ports:
+      - "8888:8000"
+    networks:
+      - mqtt-bridge
+    hostname: app-nodejs
+    container_name: app-nodejs
+
+networks:
+  mqtt-bridge:
+    driver: bridge
