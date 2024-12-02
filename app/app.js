@@ -77,10 +77,10 @@ app.post('/control', (req, res) => {
 
         const message = req.body;
         const esp32 = message.esp32;
+        const topic_pub = `upb/control`;
 
         if (esp32 === "") {
             for (let i = 0; i < registry.length; i++) {
-                const topic_pub = `upb/control`;
                 const new_message = {
                     esp32: registry[i], 
                     new_delay: message.new_delay
@@ -94,7 +94,6 @@ app.post('/control', (req, res) => {
         const index = registry.findIndex((item) => item === esp32);
         if (index !== -1) {
             // Send message to ESP32
-            const topic_pub = `upb/control`;
             publishMessage(topic_pub, message);
             res.send(`Message sent to ESP32 ${esp32}`);
         } else {
