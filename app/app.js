@@ -88,7 +88,8 @@ app.post('/control', (req, res) => {
                 publishMessage(topic_pub, new_message);
                 console.log(`Message sent to ESP32 ${registry[i]}`);
             }
-            return res.send(`Message sent to all ESP32 devices`);
+            res.send(`Message sent to all ESP32 devices`);
+            return ;
         }
         // Find the ESP32 record
         const index = registry.findIndex((item) => item === esp32);
@@ -99,6 +100,7 @@ app.post('/control', (req, res) => {
         } else {
             res.status(404).send(`ESP32 ${esp32} not found`);
         }
+        return ;
     } catch (error) {
         console.error('Error processing request:', error);
         res.status(500).send('Error processing request');
