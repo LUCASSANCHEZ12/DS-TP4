@@ -78,7 +78,7 @@ app.post('/control', (req, res) => {
         const message = req.body;
         const esp32 = message.esp32;
 
-        if (esp32 !== "") {
+        if (esp32 === "") {
             for (let i = 0; i < registry.length; i++) {
                 const topic_pub = `upb/control`;
                 const new_message = {
